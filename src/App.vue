@@ -1,28 +1,32 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <router-view/>
+    <!-- <Testlar/> -->
+    <!-- <Test-2/> -->
+    <!-- <Test3/> -->
+    <!-- <Forma/> -->
+    <!-- <TalabalarToDo/>   -->
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+// import Testlar from "@/screen/Testlar.vue" 
+// import Test2 from "./screen/Test2.vue";
+// import Test3 from './screen/Test3.vue';
+// import Forma from './screen/Forma.vue';
 
+
+// import TalabalarToDo from './screen/TalabalarToDo.vue';
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+  
+}
 }
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+ 
 }
 </style>
