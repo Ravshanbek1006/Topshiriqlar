@@ -1,4 +1,5 @@
 <template>
+  <div>
   <div class="container bg-teal-700 w-1/4 p-5 rounded-2xl shadow-2xl">
     <form >
       <h1 class="text-white text-2xl text-center mb-6">Ro'yxattan o'tish</h1>
@@ -57,19 +58,21 @@
         <br />
         <input
           :id="tugilgan"
-          type="text"
+          type="date"
           class="outline-none mt-2 rounded-sm px-4"
           placeholder="28-11-2022"
           v-model="tugilgan"
         />
         <br>
         <h3 v-show="tugilgansanashow" >Pasport nomeringizni hato bkirittingiz</h3>
-      </div>
-
-     
-
-      <button @click.prevent="jonatish" class="mt-8 text-white bg-blue-700 px-5 rounded-md " >jonat</button>
+      </div>     
+      <button @click.prevent="jonatish" class="mt-8 text-white bg-blue-700 px-5 rounded-md " >Submit</button>
     </form>
+    <p class="text-red-700 text-sm font-bold mt-5">Validatsiya focusda emas Submit boganda ishledi.</p>
+  </div>
+  <div >
+    <p @click="logout" class="text-red-700 text-3xl text-center cursor-pointer">Log out</p>
+  </div>
   </div>
 </template>
 
@@ -120,6 +123,9 @@ export default {
             }, 3000);
         }
        
+    },
+    logout:function(){
+      this.$router.push("/")
     }
   },
 };

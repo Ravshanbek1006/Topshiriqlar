@@ -19,7 +19,7 @@
               placeholder="1-javobni kiriting"
               class="w-1/2 rounded-2xl px-8 text-black outline-none h-8 mt-5"
             />
-            <input type="radio" :value="true" v-model="status1" class="mt-2" />
+            <input type="radio" :value=true v-model="status1" class="mt-2" name="javob" />
             <p>To'g'ri javobni tanlab qoying</p>
           </div>
           <hr class="bg-white m-2" />
@@ -32,7 +32,7 @@
               placeholder="2-javobni kiriting"
               class="w-1/2 rounded-2xl px-8 text-black outline-none h-8 mt-5"
             />
-            <input type="radio" :value="true" v-model="status2" class="mt-2" />
+            <input type="radio" :value=true v-model="status2" class="mt-2" name="javob" />
             <p>To'g'ri javobni tanlab qoying</p>
           </div>
           <hr class="bg-white m-2" />
@@ -46,7 +46,7 @@
               placeholder="3-javobni kiriting"
               class="w-1/2 rounded-2xl px-8 text-black outline-none h-8 mt-5"
             />
-            <input type="radio" :value="true" v-model="status3" class="mt-2" />
+            <input type="radio" :value=true v-model="status3" class="mt-2"  name="javob"/>
             <p>To'g'ri javobni tanlab qoying</p>
           </div>
           <hr class="bg-white m-2" />
@@ -80,7 +80,12 @@
         :key="index"
         v-show="savolnomer == index"
       >
+      <div class="flex flex-row justify-between items-center mr-5">
         <h1 class="text-3xl">{{ item.savol }}</h1>
+        <div>
+          <button  @click="ochirish(index)" class="bg-red-700 px-5 rounded-lg" >Delete</button>
+        </div>
+      </div>
         <hr class="bg-white m-2" />
         <ol class="p-2">
           <li
@@ -93,6 +98,7 @@
               v-model="inputvalue"
               :name="index"
               :value="javob.correct"
+              @change="inputbosildi"
             />
             {{ javob.variant }}
           </li>
@@ -101,6 +107,7 @@
         <button
           @click="bosti()"
           class="bg-red-600 px-6 py-1 rounded-md hover:bg-red-400"
+          v-show="keyingisishow"
         >
           Keyingisi
         </button>
@@ -206,6 +213,7 @@ export default {
       savolnomer: 0,
       natijanikorish: false,
       buttonnatija: false,
+      keyingisishow:false,
       savolkirit: "",
       javobnikiritt1: "",
       javobnikiritt2: "",
@@ -238,7 +246,8 @@ export default {
 
   methods: {
     bosti: function () {
-      if (this.inputvalue) {
+      if(this.inputvalue == true || this.inputvalue == false){
+        if (this.inputvalue) {
         this.togri++;
       }
       if (this.savolnomer == this.quiz1.length - 1) {
@@ -246,6 +255,8 @@ export default {
       }
       this.savolnomer++;
       this.inputvalue = "";
+      this.keyingisishow = false
+      }
     },
     natija: function () {
       this.natijanikorish = true;
@@ -264,21 +275,29 @@ export default {
       this.savoljonatmassiv.javoblar[2].correct = this.status3;
       this.savoljonatmassiv.javoblar[2].variant = this.javobnikiritt3;
       if (!(this.savoljonatmassiv.savol == "")) {
-        this.quiz1.push({...this.savoljonatmassiv});
+        this.quiz1.push(JSON.parse(JSON.stringify(this.savoljonatmassiv)));
+        this.savolkirit = "";
+      this.javobnikiritt1 = "";
+      this.javobnikiritt2 = "";
+      this.javobnikiritt3 = "";
+      this.status1 = false;
+      this.status2 = false;
+      this.status3 = false;
       }
-      // this.savolkirit = "";
-      // this.status1 = false;
-      // this.javobnikiritt1 = "";
-      // this.status2 = false;
-      // this.javobnikiritt2 = "";
-      // this.status3 = false;
-      // this.javobnikiritt3 = "";
+      
+      
       this.testqoshishshow = false;
     },
     testqoshishkaotish: function () {
       this.testqoshishshow = true;
       this.savoljonatmassiv.savol = "";
     },
+    inputbosildi:function(){
+      this.keyingisishow = true 
+    },
+    ochirish:function(i){
+      this.quiz1.splice(i, 1)
+    }
   },
 };
 </script>

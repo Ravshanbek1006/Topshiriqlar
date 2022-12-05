@@ -1,5 +1,7 @@
 <template>
-  <div
+  <div>
+    <div v-show="!testqoshishshow">
+    <div
     class="
       bg-teal-800
       w-2/4
@@ -22,7 +24,10 @@
         :key="index"
         v-show="showSavol == index"
       >
+      <div  class="flex flex-row justify-between items-center mr-5">
         <h3 class="text-3xl">{{ item.savol }}</h3>
+        <button  @click="ochirish(index)" class="bg-red-700 px-5 rounded-lg">delete</button>
+      </div>
         <hr class="bg-white m-2" />
 
         <ol class="pl-4 py-2">
@@ -31,6 +36,7 @@
               type="checkbox"
               :value="item.javoblar[0].correct"
               v-model="checkedNames0"
+              @change="(keyingisishow = true)"
             />
             {{ item.javoblar[0].variant }}
           </li>
@@ -39,6 +45,8 @@
               type="checkbox"
               :value="item.javoblar[1].correct"
               v-model="checkedNames1"
+              @change="(keyingisishow = true)"
+
             />
             {{ item.javoblar[1].variant }}
           </li>
@@ -47,6 +55,8 @@
               type="checkbox"
               :value="item.javoblar[2].correct"
               v-model="checkedNames2"
+              @change="(keyingisishow = true)"
+
             />
             {{ item.javoblar[2].variant }}
           </li>
@@ -61,6 +71,7 @@
             )
           "
           class="bg-red-600 px-6 py-1 rounded-md hover:bg-red-400"
+          v-show="keyingisishow"
         >
           Keyingisi
         </button>
@@ -85,11 +96,89 @@
         </div>
       </div>
     </div>
+   </div>
+   <div class="flex justify-center mt-5">
+    <button @click="(testqoshishshow = true)" class="bg-blue-800 px-5 text-white rounded-lg py-2">test savollari qo'shish</button>
+   </div>
+   </div>
+
+   
+
+
+   <div
+   v-show="testqoshishshow"
+    class="  bg-teal-800
+      w-2/4
+      text-white
+      mx-auto
+      mt-32
+      p-4
+      border-teal-900 border-4
+      rounded-2xl
+      shadow-rxl
+      container mb-10" 
+      
+      >
+      <h3 class="text-center text-2xl mb-4">Savol kiriting:</h3>
+      <input 
+      type="text"
+      v-model="savolobjekt.savol"
+      placeholder="Savolni kiriting"
+      class="w-full h-10 rounded-lg px-4 outline-none text-black mb-4"
+      >
+        <hr class="bg-white m-2" />
+
+      <div class="flex flex-col items-center mt-3 ">
+        <div class="flex flex-col items-center mt-3 w-full border-b-2 pb-2 ">
+         <input 
+         type="text"
+         v-model="savolobjekt.javoblar[0].variant"
+         placeholder="Birinchi javobni kiriting"
+         class="w-1/2 h-8 rounded-lg px-4 outline-none text-black"
+         >
+         <input type="radio" :value=true v-model="savolobjekt.javoblar[0].correct" class="mt-2" />
+         <p>To'g'ri javobni belgilang</p>
+        </div>
+
+        <div class="flex flex-col items-center mt-3 w-full border-b-2 pb-2 ">
+         <input 
+         type="text"
+         v-model="savolobjekt.javoblar[1].variant"
+         placeholder="Birinchi javobni kiriting"
+         class="w-1/2 h-8 rounded-lg px-4 outline-none text-black"
+         >
+         <input type="radio"  v-model="savolobjekt.javoblar[1].correct" class="mt-2" />
+         <p>To'g'ri javobni belgilang</p>
+        </div>
+
+        <div class="flex flex-col items-center mt-3 w-full border-b-2 pb-2 ">
+         <input 
+         type="text"
+          v-model="savolobjekt.javoblar[2].variant"
+         placeholder="Birinchi javobni kiriting"
+         class="w-1/2 h-8 rounded-lg px-4 outline-none text-black"
+         >
+         <input type="radio"  v-model="savolobjekt.javoblar[2].correct" class="mt-2" />
+         <p>To'g'ri javobni belgilang</p>
+        </div>
+        <div class="mt-4 ">
+          <button @click="testqoshish" class="bg-blue-800 px-5 py-1 rounded-lg">Savolni qo'shilsin</button>
+        </div>
+
+
+       </div>
+    </div>  
   </div>
 </template>
 
 <script>
-var quiz2 = [
+
+export default {
+  name: "TopshiriqlarTest2",
+
+  data() {
+    return {
+      quiz2: [
   {
     savol: "1-to'g'ri javobni toping",
     javoblar: [
@@ -141,20 +230,34 @@ var quiz2 = [
       },
     ],
   },
-];
-export default {
-  name: "TopshiriqlarTest2",
-
-  data() {
-    return {
-      quiz2: quiz2,
+],
       checkedNames0: "",
       checkedNames1: "",
       checkedNames2: "",
       showSavol: 0,
       togrijavoblar: 0,
       natijalar: false,
-      natijabtnshow:false
+      natijabtnshow:false,
+      testqoshishshow:false,
+      keyingisishow:false,
+
+      savolobjekt:{
+        savol: "",
+          javoblar: [
+            {
+              variant: "",
+              correct: false,
+            },
+            {
+              variant: "",
+              correct: false,
+            },
+            {
+              variant: "",
+              correct: false,
+            },
+          ],
+      }
     };
   },
 
@@ -168,7 +271,7 @@ export default {
         this.checkedNames2 == val2
       ) {
         this.togrijavoblar++;
-        console.log(this.togrijavoblar);
+        this.keyingisishow = false
       }
       if(this.showSavol == this.quiz2.length-1){
         console.log("salom");
@@ -188,6 +291,28 @@ export default {
     },
     natijanikorish:function(){
             this.natijalar = true
+    },
+    ochirish:function(i){
+      this.quiz2.splice(i , 1)
+    },
+    testqoshish:function(){
+      if(this.savolobjekt.savol.length > 0 && 
+      this.savolobjekt.javoblar[0].variant.length > 0 &&
+      this.savolobjekt.javoblar[1].variant.length > 0 &&
+      this.savolobjekt.javoblar[2].variant.length > 0
+      ){
+          this.quiz2.push( JSON.parse(JSON.stringify(this.savolobjekt)))
+          
+
+          this.savolobjekt.savol = ""
+          this.savolobjekt.javoblar[0].variant = ""
+          this.savolobjekt.javoblar[0].correct = false
+          this.savolobjekt.javoblar[1].variant = ""
+          this.savolobjekt.javoblar[1].correct = false
+          this.savolobjekt.javoblar[2].variant = ""
+          this.savolobjekt.javoblar[2].correct = false
+          this.testqoshishshow = false
+      }
     }
   },
 };
